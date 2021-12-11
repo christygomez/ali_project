@@ -10,7 +10,7 @@ async function main() {
   try {
     await client.connect();
 
-    await deleteListingsScrapedBeforeDate(client, new Date('2020-02-28'));
+    // await deleteListingsScrapedBeforeDate(client, new Date('2020-02-28'));
 
     // await deleteListingByName(client, 'Cozy Cottage');
 
@@ -34,7 +34,7 @@ async function main() {
     //   maxResults: 5,
     // });
 
-    // await findOneListingByName(client, "Ali's Loft MULT 2");
+    await findOneListingByName(client, "Ali's Loft MULT 2");
 
     // await listDatabases(client);
 
