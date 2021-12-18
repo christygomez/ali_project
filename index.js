@@ -1,3 +1,6 @@
+//Run: node index.js
+//TODO: connect to db in multiple files
+
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
@@ -34,7 +37,9 @@ async function main() {
     //   maxResults: 5,
     // });
 
-    await findOneListingByName(client, "Ali's Loft MULT 2");
+    await findOneListingBy_id(client, "10006546");
+
+    // await findOneListingByName(client, "Ali's Loft MULT 2");
 
     // await listDatabases(client);
 
@@ -161,6 +166,20 @@ async function findListingsWithMinBedsBathsAndRecentReviews(
     });
   } else {
     console.log('NOTHING FOUND');
+  }
+}
+
+async function findOneListingBy_id(client, id) {
+  const result = await client
+    .db('sample_airbnb')
+    .collection('listingsAndReviews')
+    .findOne({ _id: id });
+
+  if (result) {
+    console.log(`Found listing with name "${id}", Result: `, result);
+    // console.log(result);
+  } else {
+    console.log(`No listing found with the name ${id}`);
   }
 }
 
