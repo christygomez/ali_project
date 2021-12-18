@@ -37,17 +37,17 @@ async function main() {
     //   maxResults: 5,
     // });
 
-    await findOneListingBy_id(client, "10006546");
+    // await findOneListingBy_id(client, "10006546");
 
     // await findOneListingByName(client, "Ali's Loft MULT 2");
 
     // await listDatabases(client);
 
     // await createListing(client, {
-    //   name: "Ali's Loft",
-    //   summary: 'A place with a brown couch',
-    //   bedrooms: 1,
-    //   bathrooms: 1,
+    //   name: "Infinite Views",
+    //   summary: 'Sample place to test mongodb transactions',
+    //   bedrooms: 3,
+    //   bathrooms: 2,
     // });
 
     // await createMultipleListings(client, [
