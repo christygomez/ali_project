@@ -1,65 +1,76 @@
-// import React from 'react';
+import "./App.css";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 
-import Tasks from './Tasks';
-import { Paper, TextField } from '@material-ui/core';
-import { Checkbox, Button } from '@material-ui/core';
-import './App.css';
+function App() {
+  const [listOfUsers, setListOfUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(0);
+  const [username, setUsername] = useState("");
 
-class App extends Tasks {
-  state = { tasks: [], currentTask: '' };
-  render() {
-    const { tasks } = this.state;
-    return (
-      <div className='App flex'>
-        <Paper elevation={3} className='container'>
-          <div className='heading'>TO-DO</div>
-          <form
-            onSubmit={this.handleSubmit}
-            className='flex'
-            style={{ margin: '15px 0' }}
-          >
-            <TextField
-              variant='outlined'
-              size='small'
-              style={{ width: '80%' }}
-              value={this.state.currentTask}
-              required={true}
-              onChange={this.handleChange}
-              placeholder='Add New TO-DO'
-            />
-            <Button
-              style={{ height: '40px' }}
-              color='primary'
-              variant='outlined'
-              type='submit'
-            >
-              Add task
-            </Button>
-          </form>
-          <div>
-            {tasks.map((task) => (
-              <Paper key={task._id} className='flex task_container'>
-                <Checkbox
-                  checked={task.completed}
-                  onClick={() => this.handleUpdate(task._id)}
-                  color='primary'
-                />
-                <div className={task.completed ? 'task line_through' : 'task'}>
-                  {task.task}
-                </div>
-                <Button
-                  onClick={() => this.handleDelete(task._id)}
-                  color='secondary'
-                >
-                  delete
-                </Button>
-              </Paper>
-            ))}
-          </div>
-        </Paper>
+  useEffect(() => {
+    Axios.get("http://localhost:3001/getUsers").then((response) => {
+      setListOfUsers(response.data);
+    });
+  }, []);
+
+  const createUser = () => {
+    Axios.post("http://localhost:3001/createUser", {
+      name,
+      age,
+      username,
+    }).then((response) => {
+      setListOfUsers([
+        ...listOfUsers,
+        {
+          name,
+          age,
+          username,
+        },
+      ]);
+    });
+  };
+
+  return (
+    <div className="App">
+      <div className="usersDisplay">
+        {listOfUsers.map((user) => {
+          return (
+            <div>
+              <h1>Name: {user.name}</h1>
+              <h1>Age: {user.age}</h1>
+              <h1>Username: {user.username}</h1>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
+
+      <div>
+        <input
+          type="text"
+          placeholder="Name..."
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
+        />
+        <input
+          type="number"
+          placeholder="Age..."
+          onChange={(event) => {
+            setAge(event.target.value);
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Username..."
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
+        <button onClick={createUser}> Create User </button>
+      </div>
+    </div>
+  );
 }
 
 export default App;
