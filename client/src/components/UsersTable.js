@@ -17,18 +17,23 @@ const UsersTable = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type='text'
-        onChange={(e) => {
-          setUser(e.target.value);
-        }}
-        value={user}
-      ></input>
-      <button type='submit'>Add User</button>
-      <button>Edit</button>
-      <button>Delete</button>
-    </form>
+    <div className='UsersTable'>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          onChange={(e) => {
+            setUser(e.target.value);
+          }}
+          value={user}
+        ></input>
+        <button type='submit'>Add User</button>
+        <button>Edit</button>
+        <button>Delete</button>
+      </form>
+      {users.map((user) => {
+        return <div key={user.id}>{user.text}</div>;
+      })}
+    </div>
   );
 };
 

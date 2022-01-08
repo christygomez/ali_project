@@ -32,16 +32,28 @@ function App() {
     });
   };
 
+  const deleteUser = (id) => {
+    const updatedUser = [...listOfUsers].filter((user) => user._id != id);
+    console.log('DELETE USER');
+  };
+
+  const editUser = (id) => {
+    const editedUser = [...listOfUsers].filter((user) => user._id != id);
+    console.log('EDIT USER');
+  };
+
   return (
     <div className='App'>
-      <UsersTable></UsersTable>
+      {/* <UsersTable></UsersTable> */}
       <div className='usersDisplay'>
         {listOfUsers.map((user) => {
           return (
-            <div>
-              <h1>Name: {user.name}</h1>
-              <h1>Age: {user.age}</h1>
-              <h1>Username: {user.username}</h1>
+            <div key={user._id}>
+              <h1>
+                Name: {user.name}, Age: {user.age}, Username: {user.username}
+                <button onClick={() => editUser(user._id)}>Edit</button>
+                <button onClick={() => deleteUser(user._id)}>Delete</button>
+              </h1>
             </div>
           );
         })}
