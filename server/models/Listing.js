@@ -1,8 +1,16 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-const ListingSchema = mongoose.Schema({
+const ListingSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
+  },
+  bedrooms: {
+    type: Number,
+    required: true,
+  },
+  bathrooms: {
+    type: Number,
     required: true,
   },
 });
