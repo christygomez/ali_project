@@ -5,15 +5,27 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
-const UserModel = require('./models/Users');
 
 const cors = require('cors');
 
 app.use(express.json());
 app.use(cors());
 
-app.get('/getUsers', (req, res) => {
-  UserModel.find({}, (err, result) => {
+const UserModel = require('./models/Users');
+const ListingModel = require('./models/Users');
+
+// app.get('/getUsers', (req, res) => {
+//   UserModel.find({}, (err, result) => {
+//     if (err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   });
+// });
+
+app.get('/getListings', (req, res) => {
+  ListingModel.find({}, (err, result) => {
     if (err) {
       res.json(err);
     } else {
