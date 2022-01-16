@@ -32,8 +32,8 @@ app.get('/getListings', (req, res) => {
     if (err) {
       res.json(err);
     } else {
-      console.log(result)
-      // res.json(result);
+      // console.log(result)
+      res.json(result);
     }
   });
 });

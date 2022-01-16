@@ -9,7 +9,7 @@ async function main() {
 
   try {
     await client.connect();
-    // await listDatabases(client);
+    await listDatabases(client);
 
     // await renameCollection(client);
     
