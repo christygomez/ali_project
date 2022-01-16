@@ -5,11 +5,18 @@ const ListingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  summary: {
+    type: String,
+  },
   bedrooms: {
     type: Number,
     required: true,
   },
   bathrooms: {
+    type: Number,
+    required: true,
+  },
+  price: {
     type: Number,
     required: true,
   },

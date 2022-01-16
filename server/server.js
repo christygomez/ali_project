@@ -27,21 +27,6 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 //   });
 // });
 
-app.get('/getListings', (req, res) => {
-  ListingModel.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      // console.log(result)
-      res.json(result);
-    }
-  });
-});
-
-app.get('/', (req, res) => {
-  res.send("Hello Christy - Ali's Project");
-});
-
 // app.post('/createUser', async (req, res) => {
 //   const user = req.body;
 //   const newUser = new UserModel(user);
@@ -49,6 +34,30 @@ app.get('/', (req, res) => {
 
 //   res.json(user);
 // });
+
+
+app.get('/getListings', (req, res) => {
+  ListingModel.find({}, (err, result) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+app.post('/createListing', async (req, res) => {
+  const listing = req.body;
+  const newListing = new ListingModel(listing);
+  await newListing.save();
+
+  res.json(listing);
+});
+
+app.get('/', (req, res) => {
+  res.send("Hello Christy - Ali's Project");
+});
+
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
