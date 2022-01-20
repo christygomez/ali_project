@@ -53,9 +53,17 @@ app.post('/createListing', async (req, res) => {
   res.json(listing);
 });
 
+app.put('/listings/:id', (req, res) => {
+  ListingModel.findByIdAndUpdate(req.params.id, req.body)
+    .then(listing => res.json({ msg: 'Updated successfully' }))
+    .catch(err =>
+      res.status(400).json({ error: 'Unable to update the Database' })
+    );
+});
+
 app.delete('/listings/:id', (req, res) => {
   ListingModel.findByIdAndRemove(req.params.id, req.body)
-    .then(book => res.json({ mgs: 'Listing deleted successfully' }))
+    .then(listing => res.json({ mgs: 'Listing deleted successfully' }))
     .catch(err => res.status(404).json({ error: 'Listing not found' }));
 });
 
