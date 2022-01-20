@@ -35,7 +35,6 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 //   res.json(user);
 // });
 
-
 app.get('/getListings', (req, res) => {
   ListingModel.find({}, (err, result) => {
     if (err) {
@@ -54,10 +53,15 @@ app.post('/createListing', async (req, res) => {
   res.json(listing);
 });
 
+app.delete('/listings/:id', (req, res) => {
+  ListingModel.findByIdAndRemove(req.params.id, req.body)
+    .then(book => res.json({ mgs: 'Listing deleted successfully' }))
+    .catch(err => res.status(404).json({ error: 'Listing not found' }));
+});
+
 app.get('/', (req, res) => {
   res.send("Hello Christy - Ali's Project");
 });
-
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
