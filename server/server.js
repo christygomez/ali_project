@@ -14,8 +14,14 @@ const ListingModel = require('./models/Listing');
 app.use(express.json());
 app.use(cors());
 
-app.use(bodyParser.json({ limit: '30mb', extended: true }));
-app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+// app.use(bodyParser.json({ limit: '30mb', extended: true }));
+// app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+
+/**
+ * handle parsing request body
+ */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.get('/getUsers', (req, res) => {
 //   UserModel.find({}, (err, result) => {
@@ -35,8 +41,38 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 //   res.json(user);
 // });
 
+// app.get('/getListings', (req, res) => {
+//   ListingModel.find({}, (err, result) => {
+//     if (err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   });
+// });
+
 app.get('/getListings', (req, res) => {
   ListingModel.find({}, (err, result) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// app.get('/:id', (req, res) => {
+//   ListingModel.findOne({ id: req.params.id }, (err, result) => {
+//     if (err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   });
+// });
+
+app.get('/:id', (req, res) => {
+  ListingModel.findOne({ id: req.params.id }, (err, result) => {
     if (err) {
       res.json(err);
     } else {
@@ -55,16 +91,16 @@ app.post('/createListing', async (req, res) => {
 
 app.put('/listings/:id', (req, res) => {
   ListingModel.findByIdAndUpdate(req.params.id, req.body)
-    .then(listing => res.json({ msg: 'Updated successfully' }))
-    .catch(err =>
+    .then((listing) => res.json({ msg: 'Updated successfully' }))
+    .catch((err) =>
       res.status(400).json({ error: 'Unable to update the Database' })
     );
 });
 
 app.delete('/listings/:id', (req, res) => {
   ListingModel.findByIdAndRemove(req.params.id, req.body)
-    .then(listing => res.json({ mgs: 'Listing deleted successfully' }))
-    .catch(err => res.status(404).json({ error: 'Listing not found' }));
+    .then((listing) => res.json({ mgs: 'Listing deleted successfully' }))
+    .catch((err) => res.status(404).json({ error: 'Listing not found' }));
 });
 
 app.get('/', (req, res) => {

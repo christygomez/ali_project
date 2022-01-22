@@ -20,6 +20,13 @@ const ListingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  property_type: {
+    type: String,
+  },
+  address: {
+    market: String,
+    country: String,
+  },
 });
 
 const ListingModel = mongoose.model('listingsandreviews', ListingSchema);
