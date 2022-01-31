@@ -5,14 +5,15 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-// const UserModel = require('./models/Users');
 const ListingModel = require('./models/Listing');
 
 app.use(express.json());
 app.use(cors());
+app.options('*', cors()); // Need for complex axios requests, including delete.
 
 // app.use(bodyParser.json({ limit: '30mb', extended: true }));
 // app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
@@ -20,59 +21,11 @@ app.use(cors());
 /**
  * handle parsing request body
  */
-app.use(bodyParser.json());
+app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.get('/getUsers', (req, res) => {
-//   UserModel.find({}, (err, result) => {
-//     if (err) {
-//       res.json(err);
-//     } else {
-//       res.json(result);
-//     }
-//   });
-// });
-
-// app.post('/createUser', async (req, res) => {
-//   const user = req.body;
-//   const newUser = new UserModel(user);
-//   await newUser.save();
-
-//   res.json(user);
-// });
-
-// app.get('/getListings', (req, res) => {
-//   ListingModel.find({}, (err, result) => {
-//     if (err) {
-//       res.json(err);
-//     } else {
-//       res.json(result);
-//     }
-//   });
-// });
 
 app.get('/getListings', (req, res) => {
   ListingModel.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-// app.get('/:id', (req, res) => {
-//   ListingModel.findOne({ id: req.params.id }, (err, result) => {
-//     if (err) {
-//       res.json(err);
-//     } else {
-//       res.json(result);
-//     }
-//   });
-// });
-
-app.get('/:id', (req, res) => {
-  ListingModel.findOne({ id: req.params.id }, (err, result) => {
     if (err) {
       res.json(err);
     } else {
@@ -89,19 +42,42 @@ app.post('/createListing', async (req, res) => {
   res.json(listing);
 });
 
-app.put('/listings/:id', (req, res) => {
-  ListingModel.findByIdAndUpdate(req.params.id, req.body)
-    .then((listing) => res.json({ msg: 'Updated successfully' }))
-    .catch((err) =>
-      res.status(400).json({ error: 'Unable to update the Database' })
-    );
+// Works for new listings that have ObjectId, but old listings from sample db don't have this type of id.
+// app.get('/listings/:id', async (req, res) => {
+//   await ListingModel.findById(req.params.id)
+//     .then((result) => res.json(result))
+//     .catch((err) => res.json('Error: ', err));
+// });
+
+// Finds individual docs by new_id
+app.get('/listings/:new_id', async (req, res) => {
+  await ListingModel.find({ new_id: req.params.new_id })
+    .then((result) => res.json(result))
+    .catch((err) => res.json('Error: ', err));
 });
 
-app.delete('/listings/:id', (req, res) => {
-  ListingModel.findByIdAndRemove(req.params.id, req.body)
-    .then((listing) => res.json({ mgs: 'Listing deleted successfully' }))
+app.delete('/listings/:new_id', cors(), async (req) => {
+  await ListingModel.findOneAndDelete({ new_id: req.params.new_id }).catch(
+    (err) => console.log('Error: ', err)
+  );
+});
+
+// THIS WORKS IN POSTMAN?? CHECK IF EDITED
+app.delete('/listings/:new_id', cors(), (req, res) => {
+  ListingModel.findOneAndDelete({ new_id: req.params.new_id })
+    .then((result) =>
+      res.json({ mgs: `Listing '${result.name}' deleted successfully` })
+    )
     .catch((err) => res.status(404).json({ error: 'Listing not found' }));
 });
+
+// app.put('/listings/:id', (req, res) => {
+//   ListingModel.findByIdAndUpdate(req.params.id, req.body)
+//     .then((listing) => res.json({ msg: 'Updated successfully' }))
+//     .catch((err) =>
+//       res.status(400).json({ error: 'Unable to update the Database' })
+//     );
+// });
 
 app.get('/', (req, res) => {
   res.send("Hello Christy - Ali's Project");

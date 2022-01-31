@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 const ListingSchema = new mongoose.Schema({
   name: {
@@ -27,6 +28,7 @@ const ListingSchema = new mongoose.Schema({
     market: String,
     country: String,
   },
+  new_id: { type: mongoose.Schema.Types.ObjectId, default: new ObjectId() },
 });
 
 const ListingModel = mongoose.model('listingsandreviews', ListingSchema);
