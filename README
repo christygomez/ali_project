@@ -1,2 +1,27 @@
+MERN TODO
+https://github.com/TylerPottsDev/mern-todo
+
+MERN from FrontEnd Masters
+https://github.com/btholt/citr-v6-project/
+
 MERN Tutorial For Beginners | Learn MERN In 60 Minutes
-youtube.com/watch?v=I7EDAR2GRVo&t=90s 
+Users, Books, has create but not delete or update
+youtube.com/watch?v=I7EDAR2GRVo&t=90s
+https://github.com/machadop1407/MERN-Beginners
+
+edit...
+https://www.youtube.com/watch?v=VCBxy8yczEg&t=319s
+
+-TODO:
+-update changestreams functions listingsAndReviews to listingsandreviews (all lowercase)
+-test changestreams files with new naming
+-if necessary, add 2nd id to items without object id in mongodb, to access values and display id, delete, etc.
+-get PostMan to work with prior data, single data...
+-mongodb access across pages
+-react pass props for reusable components
+-App.js key=listing.name update after object ids created
+
+-have react state update components, not db request each time
+-fetch data periodically to sync react state, websockets? or through heroku
+-react display a few items at a time then click for more  https://blog.logrocket.com/4-ways-to-render-large-lists-in-react/ 
+
